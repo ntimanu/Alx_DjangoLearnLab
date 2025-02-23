@@ -1,20 +1,21 @@
-# relationship_app/query_samples.py
-from relationship_app.models import Author, Book, Library, Librarian
+# query_samples.py
 
-# Query all books by a specific author
-def books_by_author(author_name):
-    author = Author.objects.get(name=author_name)
+from relationship_app.models import Author, Book, Librarian
+
+# Query: List all books in a library
+def list_books_in_library():
+    books = Book.objects.all()
+    for book in books:
+        print(book.title)
+
+# Query: Query all books by a specific author
+def query_books_by_author(author_name):
+    author = Author.objects.filter(name=author_name).first()
     books = Book.objects.filter(author=author)
-    return books
+    for book in books:
+        print(book.title)
 
-# List all books in a library
-def books_in_library(library_name):
-    library = Library.objects.get(name=library_name)
-    books = library.books.all()
-    return books
-
-# Retrieve the librarian for a library
-def librarian_for_library(library_name):
-    library = Library.objects.get(name=library_name)
-    librarian = Librarian.objects.get(library=library)
-    return librarian
+# Query: Retrieve the librarian for a library
+def retrieve_librarian(library_name):
+    librarian = Librarian.objects.filter(library_name=library_name).first()
+    print(librarian.name)
