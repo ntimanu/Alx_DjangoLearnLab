@@ -37,16 +37,13 @@ def books_in_library(library_name):
 
 def librarian_for_library(library_name):
     """Retrieve the librarian for a library."""
+    
     try:
-        library = Library.objects.get(name=library_name)
-        try:
-            librarian = librarian.objects.get(library=library)
-            print(f"The librarian for {library_name} is {librarian.name}.")
-            return librarian
-        except Librarian.DoesNotExist:
-            print(f"No Librarian assigned to {library_name}.")
-            return None
-    except Library.DoesNotExist:
-        print(f"Library '{library_name}' not found.")
+        librarian = librarian.objects.get(library=library)
+        print(f"The librarian for {library_name} is {librarian.name}.")
+        return librarian
+    except Librarian.DoesNotExist:
+        print(f"No Librarian assigned to {library_name}.")
         return None
+    
     
