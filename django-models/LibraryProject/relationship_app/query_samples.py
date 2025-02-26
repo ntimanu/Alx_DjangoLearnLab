@@ -40,7 +40,7 @@ def librarian_for_library(library_name):
     try:
         library = Library.objects.get(name=library_name)
         try:
-            librarian = library.librarian
+            librarian = librarian.objects.get(library=library)
             print(f"The librarian for {library_name} is {librarian.name}.")
             return librarian
         except Librarian.DoesNotExist:
