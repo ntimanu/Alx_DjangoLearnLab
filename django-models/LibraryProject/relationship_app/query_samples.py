@@ -51,40 +51,4 @@ def get_librarian_for_library(library_name):
     except Library.DoesNotExist:
         print(f"Library '{library_name}' not found.")
         return None
-
-# Example usage:
-if _name_ == "_main_":
-    # First, let's create some sample data
-    # Create authors
-    author1, created = Author.objects.get_or_create(name="J.K. Rowling")
-    author2, created = Author.objects.get_or_create(name="George Orwell")
-    
-    # Create books
-    book1, created = Book.objects.get_or_create(title="Harry Potter", author=author1)
-    book2, created = Book.objects.get_or_create(title="Fantastic Beasts", author=author1)
-    book3, created = Book.objects.get_or_create(title="1984", author=author2)
-    book4, created = Book.objects.get_or_create(title="Animal Farm", author=author2)
-    
-    # Create library
-    library1, created = Library.objects.get_or_create(name="City Central Library")
-    library2, created = Library.objects.get_or_create(name="University Library")
-    
-    # Add books to libraries
-    library1.books.add(book1, book2, book3)
-    library2.books.add(book2, book3, book4)
-    
-    # Create librarians
-    librarian1, created = Librarian.objects.get_or_create(name="John Smith", library=library1)
-    librarian2, created = Librarian.objects.get_or_create(name="Jane Doe", library=library2)
-    
-    # Run the example queries
-    print("\nExample Query 1: Books by J.K. Rowling")
-    query_books_by_author("J.K. Rowling")
-    
-    print("\nExample Query 2: Books in City Central Library")
-    list_books_in_library("City Central Library")
-    
-    print("\nExample Query 3: Librarian for University Library")
-    get_librarian_for_library("University Library")
-    
-    
+   
