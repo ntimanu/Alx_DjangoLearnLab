@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404,render, redirect
 from .models import Library, Book
 from django.views.generic.detail import DetailView
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from .models import Book
 
 # Function-Based View to list all books
 def list_books(request):
@@ -73,5 +74,34 @@ def librarian_view(request):
 def member_view(request):
     return render(request, "relationship_app/member_view.html")
 
-def list_books(request):
-    return HttpResponse("List of books")
+# View for adding a new book
+@permission_required('relationship_app.can_add_book', raise_exception=True)
+def add_book(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        author = request.POST.get('author')
+        isbn = request.POST.get('isbn')
+        published_date = request.POST.get('published_date')
+        book = Book.objects.create(title=title, author=author, isbn=isbn, published_date=published_date)
+        return redirect('list_books')
+    return render(request, 'relationship_app/add_book.html')
+
+# View for editing a book
+@permission_required('relationship_app.can_change_book', raise_exception=True)
+def edit_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    if request.method == 'POST':
+        book.title = request.POST.get('title')
+        book.author = request.POST.get('author')
+        book.isbn = request.POST.get('isbn')
+        book.published_date = request.POST.get('published_date')
+        book.save()
+        return redirect('list_books')
+    return render(request, 'relationship_app/edit_book.html', {'book': book})
+
+# View for deleting a book
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
+def delete_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    book.delete()
+    return redirect('list_books')

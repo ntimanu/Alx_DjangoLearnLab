@@ -5,6 +5,9 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
+from django.urls import path
+from django.contrib.auth.views import LoginView, LogoutView
+from . import views  # Import your custom views
 
 # Function-Based View to list all books
 def list_books(request):
@@ -76,9 +79,6 @@ def member_view(request):
 
 def list_books(request):
     return HttpResponse("List of books")
-from django.urls import path
-from django.contrib.auth.views import LoginView, LogoutView
-from . import views  # Import your custom views
 
 urlpatterns = [
     path('books/', views.list_books, name='list_books'),  # Function-based view
@@ -90,4 +90,12 @@ urlpatterns = [
     path("admin-view/", views.admin_view, name="admin_view"),
     path("librarian-view/", views.librarian_view, name="librarian_view"),
     path("member-view/", views.member_view, name="member_view"),
+        # URL for adding a new book (permission required)
+    path('book/add/', views.add_book, name='add_book'),
+    
+    # URL for editing a book (permission required)
+    path('book/edit/<int:book_id>/', views.edit_book, name='edit_book'),
+    
+    # URL for deleting a book (permission required)
+    path('book/delete/<int:book_id>/', views.delete_book, name='delete_book'),
 ]
