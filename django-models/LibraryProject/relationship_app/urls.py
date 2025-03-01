@@ -95,7 +95,7 @@ urlpatterns = [
     path("member-view/", views.member_view, name="member_view"),
 
     # Book Management URLs (Adding, Editing, Deleting books)
-    path('book/add/', views.add_book, name='add_book'),
-    path('book/edit/<int:book_id>/', views.edit_book, name='edit_book'),
+    path('add_book/add/', views.add_book, name='add_book'),
+    path('edit_book/edit/<int:book_id>/', views.edit_book, name='edit_book'),
     path('book/delete/<int:book_id>/', views.delete_book, name='delete_book'),
 ]
