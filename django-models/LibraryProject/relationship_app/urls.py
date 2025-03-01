@@ -2,12 +2,11 @@ from django.shortcuts import render, redirect
 from .models import Library, Book
 from django.views.generic.detail import DetailView
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import HttpResponse
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
-from . import views 
+from .views import list_books
+from . import views
 
 # Class-Based View to show details of a specific library
 class LibraryDetailView(DetailView):
