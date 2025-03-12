@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.shortcuts import get_object_or_404,render, redirect
 from .models import Library, Book
 from django.views.generic.detail import DetailView
@@ -105,3 +106,8 @@ def delete_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     book.delete()
     return redirect('list_books')
+=======
+from django.shortcuts import render
+
+# Create your views here.
+>>>>>>> 322e5fd575c4677913c3bed629c19f9a742cb34f

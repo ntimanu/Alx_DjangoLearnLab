@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf',
     'relationship_app',
+<<<<<<< HEAD
     'accounts',
+=======
+>>>>>>> 322e5fd575c4677913c3bed629c19f9a742cb34f
 ]
 
 MIDDLEWARE = [
@@ -57,7 +60,11 @@ ROOT_URLCONF = 'LibraryProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+<<<<<<< HEAD
         'DIRS': [BASE_DIR / 'relationship_app/templates'],
+=======
+        'DIRS': [],
+>>>>>>> 322e5fd575c4677913c3bed629c19f9a742cb34f
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,6 +131,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+<<<<<<< HEAD
 
 # Enable authentication backends
 AUTHENTICATION_BACKENDS = [
@@ -139,3 +147,5 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 # Media settings for profile model
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+=======
+>>>>>>> 322e5fd575c4677913c3bed629c19f9a742cb34f
