@@ -1,8 +1,7 @@
 from django.db import models
-from django.conf import settings
+from django.conf import settings  
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from datetime import date
 
 # Author Model
 class Author(models.Model):
@@ -15,7 +14,7 @@ class Author(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
-    published_date = models.DateField(default=date.today)
+    published_date = models.DateField(default="2000-01-01")
 
     class Meta:
         permissions = [
@@ -51,13 +50,14 @@ ROLE_CHOICES = [
 ]
 
 class UserProfile(models.Model):
+    # Replace User with settings.AUTH_USER_MODEL
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="Member")
 
     def __str__(self):
-        return f"{self.user.username} - {self.role}"
+        return f"{self.user.email} - {self.role}"  
 
-# Automatically create a UserProfile when a new user is registered
+# Update signal receivers to use the custom user model
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf',
     'relationship_app',
-    'accounts',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -134,8 +134,9 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_REDIRECT_URL = 'list_books'
 LOGOUT_REDIRECT_URL = 'login'
 
-AUTH_USER_MODEL = 'accounts.CustomUser'
+# Set the custom user model
+AUTH_USER_MODEL = 'users.CustomUser'
 
-# Media settings for profile model
+# Media settings for profile photos
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
