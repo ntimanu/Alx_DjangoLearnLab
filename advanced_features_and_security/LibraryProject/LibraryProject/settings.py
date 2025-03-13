@@ -26,6 +26,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents MIME-type sniffing attacks
 # Enable Secure Cookies
 CSRF_COOKIE_SECURE = True  # Ensures CSRF cookie is only sent over HTTPS
 SESSION_COOKIE_SECURE = True  # Ensures session cookie is only sent over HTTPS
+# SECURITY: Enable Secure Proxy SSL Header (for reverse proxy setups like Nginx)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # SECURITY: Redirect all HTTP traffic to HTTPS
 SECURE_SSL_REDIRECT = True
