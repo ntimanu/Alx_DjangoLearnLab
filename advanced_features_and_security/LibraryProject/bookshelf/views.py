@@ -6,6 +6,7 @@ from .models import Book
 from django.shortcuts import render
 from bookshelf.models import Book
 from bookshelf.forms import BookSearchForm  # Import the secure form
+from bookshelf.forms import ExampleForm
 
 # View all books (Requires 'can_view' permission)
 @permission_required('bookshelf.can_view', raise_exception=True)
