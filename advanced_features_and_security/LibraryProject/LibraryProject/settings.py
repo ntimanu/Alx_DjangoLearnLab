@@ -16,7 +16,7 @@ import os
 DEBUG = False
 
 # Restrict Allowed Hosts
-ALLOWED_HOSTS = ["http://127.0.0.1:8000/", "127.0.0.1"]  # Replace with actual domain or IP
+ALLOWED_HOSTS = ["http://127.0.0.1:8000/", "127.0.0.1"]
 
 # Secure Browser Headers
 SECURE_BROWSER_XSS_FILTER = True  # Prevents cross-site scripting (XSS) attacks
@@ -27,8 +27,11 @@ SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents MIME-type sniffing attacks
 CSRF_COOKIE_SECURE = True  # Ensures CSRF cookie is only sent over HTTPS
 SESSION_COOKIE_SECURE = True  # Ensures session cookie is only sent over HTTPS
 
+# SECURITY: Redirect all HTTP traffic to HTTPS
+SECURE_SSL_REDIRECT = True
+
 # Enable HTTP Strict Transport Security (HSTS)
-SECURE_HSTS_SECONDS = 31536000  # Enforce HTTPS for 1 year
+SECURE_HSTS_SECONDS = 31536000  
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
