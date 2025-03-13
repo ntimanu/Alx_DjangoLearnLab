@@ -1,4 +1,5 @@
 
+from bookshelf.forms import ExampleForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponseForbidden
@@ -6,7 +7,21 @@ from .models import Book
 from django.shortcuts import render
 from bookshelf.models import Book
 from bookshelf.forms import BookSearchForm  # Import the secure form
-from bookshelf.forms import ExampleForm
+from .forms import ExampleForm 
+
+def example_view(request):
+    """
+    A view that handles ExampleForm.
+    """
+    if request.method == "POST":
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Process the form data (e.g., save it, send an email, etc.)
+            return render(request, "bookshelf/form_success.html", {"form": form})
+    else:
+        form = ExampleForm()
+
+    return render(request, "bookshelf/form_example.html", {"form": form})
 
 # View all books (Requires 'can_view' permission)
 @permission_required('bookshelf.can_view', raise_exception=True)
