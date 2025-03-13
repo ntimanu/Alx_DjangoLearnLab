@@ -10,6 +10,37 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
+
+# Disable Debug Mode for Production
+DEBUG = False
+
+# Restrict Allowed Hosts
+ALLOWED_HOSTS = ["http://127.0.0.1:8000/", "127.0.0.1"]  # Replace with actual domain or IP
+
+# Secure Browser Headers
+SECURE_BROWSER_XSS_FILTER = True  # Prevents cross-site scripting (XSS) attacks
+X_FRAME_OPTIONS = "DENY"  # Protects against clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents MIME-type sniffing attacks
+
+# Enable Secure Cookies
+CSRF_COOKIE_SECURE = True  # Ensures CSRF cookie is only sent over HTTPS
+SESSION_COOKIE_SECURE = True  # Ensures session cookie is only sent over HTTPS
+
+# Enable HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_SECONDS = 31536000  # Enforce HTTPS for 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Content Security Policy (CSP) using django-csp middleware
+CSP_DEFAULT_SRC = ("'self'",)  # Only allow content from own domain
+CSP_SCRIPT_SRC = ("'self'", "https://trusted-scripts.com")  # Example for trusted scripts
+CSP_STYLE_SRC = ("'self'", "https://trusted-css.com")
+
+# Use environment variable for Secret Key
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "your_default_secret_key_here")
+
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +71,7 @@ INSTALLED_APPS = [
     'bookshelf',
     'relationship_app',
     'users',
+    'csp',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +82,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "csp.middleware.CSPMiddleware",
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'

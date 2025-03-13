@@ -3,6 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponseForbidden
 from .models import Book
+from django.shortcuts import render
+from bookshelf.models import Book
+from bookshelf.forms import BookSearchForm  # Import the secure form
 
 # View all books (Requires 'can_view' permission)
 @permission_required('bookshelf.can_view', raise_exception=True)
@@ -39,3 +42,17 @@ def book_delete(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     book.delete()
     return redirect('book_list')
+
+def search_books(request):
+    """
+    Securely searches books by title.
+    - Uses Django ORM to prevent SQL injection.
+    - Strips user input to avoid unnecessary spaces.
+    - Uses Django forms for validation.
+    """
+    form = BookSearchForm(request.GET)
+    books = []
+    if form.is_valid():
+        title = form.cleaned_data["title"]
+        books = Book.objects.filter(title__icontains=title)  # ✅ Secure query
+    return render(request, "bookshelf/book_list.html", {"form": form, "books": books})

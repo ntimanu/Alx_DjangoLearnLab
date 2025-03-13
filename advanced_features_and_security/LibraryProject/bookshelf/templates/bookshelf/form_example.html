@@ -1,0 +1,6 @@
+<form method="POST" action="{% url 'your_view_name' %}">
+  {% csrf_token %}
+  <!-- ✅ Add CSRF Token for security -->
+  <input type="text" name="title" placeholder="Enter book title" />
+  <button type="submit">Submit</button>
+</form>
