@@ -6,6 +6,7 @@ from .serializers import AuthorSerializer, BookSerializer
 from .permissions import IsAdminOrReadOnly
 from django_filters import rest_framework
 from .filters import BookFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 class AuthorViewSet(viewsets.ModelViewSet):
     """
