@@ -1,5 +1,6 @@
 # api/views.py
 from rest_framework import generics, permissions, status, viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
 from .models import Book, Author
 from .serializers import AuthorSerializer, BookSerializer
@@ -23,11 +24,11 @@ class BookCreateView(generics.CreateAPIView):
     """
     View specifically for creating new Book instances.
     
-    Restricted to admin or authenticated users with write permissions.
+    Restricted to authenticated users.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAuthenticated]
     
     def create(self, request, *args, **kwargs):
         """
@@ -63,11 +64,11 @@ class BookUpdateView(generics.UpdateAPIView):
     """
     View specifically for updating existing Book instances.
     
-    Restricted to admin or authenticated users with write permissions.
+    Restricted to authenticated users.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAuthenticated]
     
     def update(self, request, *args, **kwargs):
         """
@@ -99,11 +100,11 @@ class BookDeleteView(generics.DestroyAPIView):
     """
     View specifically for deleting Book instances.
     
-    Restricted to admin or authenticated users with delete permissions.
+    Restricted to authenticated users.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAuthenticated]
     
     def destroy(self, request, *args, **kwargs):
         """
@@ -125,7 +126,6 @@ class BookDeleteView(generics.DestroyAPIView):
             status=status.HTTP_204_NO_CONTENT
         )
 
-# Retain the existing search and list views
 class BookListView(generics.ListAPIView):
     """
     View to list all books.
@@ -134,6 +134,7 @@ class BookListView(generics.ListAPIView):
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
     
     def list(self, request):
         """
@@ -151,6 +152,7 @@ class BookSearchView(generics.ListAPIView):
     Custom view for searching books with additional filtering capabilities.
     """
     serializer_class = BookSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
     
     def get_queryset(self):
         """
