@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from .models import Book, Author
 from .serializers import AuthorSerializer, BookSerializer
 from .permissions import IsAdminOrReadOnly
-from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework
 from .filters import BookFilter
 
 class AuthorViewSet(viewsets.ModelViewSet):
@@ -133,7 +133,7 @@ class BookListView(generics.ListAPIView):
     
     # Enable filtering, searching, and ordering
     filter_backends = [
-        DjangoFilterBackend, 
+        rest_framework.DjangoFilterBackend, 
         filters.SearchFilter, 
         filters.OrderingFilter
     ]
