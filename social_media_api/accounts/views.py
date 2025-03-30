@@ -3,7 +3,6 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework import viewsets, status, generics, permissions
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from .models import CustomUser
 from .serializers import UserSerializer, LoginSerializer
@@ -14,7 +13,7 @@ class FollowUserView(generics.GenericAPIView):
     """
     API endpoint to follow a user.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
         user_to_follow = get_object_or_404(CustomUser, id=user_id)
@@ -26,7 +25,7 @@ class UnfollowUserView(generics.GenericAPIView):
     """
     API endpoint to unfollow a user.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
         user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
@@ -40,7 +39,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     @action(detail=True, methods=['post'])
     def follow(self, request, pk=None):
