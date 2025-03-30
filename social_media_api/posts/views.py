@@ -1,7 +1,18 @@
-from rest_framework import viewsets, permissions, filters
+from rest_framework import viewsets, permissions, filters, generics
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 from .permissions import IsOwnerOrReadOnly
+
+class FeedView(generics.ListAPIView):
+    """Retrieve posts from users the authenticated user follows."""
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """Fetch posts only from followed users."""
+        user = self.request.user
+        return Post.objects.filter(author__in=user.following.all()).order_by('-created_at')
+
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')
