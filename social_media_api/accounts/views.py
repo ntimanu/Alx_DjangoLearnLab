@@ -1,15 +1,32 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import viewsets, status, generics, permissions
 from .serializers import UserSerializer, LoginSerializer
-from django.contrib.auth import get_user_model
-from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from .models import CustomUser
+
+class FollowUserView(APIView):
+    """
+    API endpoint to follow a user.
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        user_to_follow = get_object_or_404(CustomUser, id=user_id)
+        request.user.follow(user_to_follow)
+        return Response({"message": f"You are now following {user_to_follow.username}."})
+
+class UnfollowUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
+        request.user.unfollow(user_to_unfollow)
+        return Response({"message": f"You have unfollowed {user_to_unfollow.username}."})
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
