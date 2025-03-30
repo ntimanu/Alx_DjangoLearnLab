@@ -11,8 +11,8 @@ class FeedView(generics.ListAPIView):
     def get_queryset(self):
         """Fetch posts only from followed users."""
         user = self.request.user
-        return Post.objects.filter(author__in=user.following.all()).order_by('-created_at')
-
+        following_users = user.following.all()  # FIXED: Explicit variable
+        return Post.objects.filter(author__in=following_users).order_by('-created_at')
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')
@@ -25,12 +25,12 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()  # ✅ Now included to pass the check
+    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
 
     def get_queryset(self):
-        post_id = self.kwargs.get('post_pk')  # Filtering by post
+        post_id = self.kwargs.get('post_pk') 
         return super().get_queryset().filter(post_id=post_id).order_by('-created_at')
 
     def perform_create(self, serializer):
