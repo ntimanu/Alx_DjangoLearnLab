@@ -7,8 +7,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your-development-secret-key')
 
+# Determine if we are running in production mode
+IS_PRODUCTION = os.environ.get('ENVIRONMENT', '').lower() == 'production'
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+# Set DEBUG to False in production
+DEBUG = False if IS_PRODUCTION else os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
