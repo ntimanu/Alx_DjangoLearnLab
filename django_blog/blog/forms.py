@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import widgets
 from .models import Comment, Post, Tag
 
 class TagWidget(forms.TextInput):
@@ -50,7 +51,7 @@ class PostForm(forms.ModelForm):
         tag_names = self.cleaned_data.get('tags', '')
         if not tag_names:
             return []
-            
+
         tag_names = [name.strip() for name in tag_names.split(',') if name.strip()]
         return tag_names
     
@@ -62,7 +63,6 @@ class PostForm(forms.ModelForm):
             tag_names = self.cleaned_data.get('tags', [])
             post.tags.clear()
             
-        
             for tag_name in tag_names:
                 tag, created = Tag.objects.get_or_create(name=tag_name.lower())
                 post.tags.add(tag)
