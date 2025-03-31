@@ -8,3 +8,24 @@
 {% endif %}
 <a href="{% url 'post_list' %}">Back to Blog</a>
 {% endblock %}
+
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+
+<h2>Comments</h2>
+{% for comment in comments %}
+<div class="comment">
+  <p><strong>{{ comment.author.username }}</strong> said:</p>
+  <p>{{ comment.content }}</p>
+  {% if comment.author == user %}
+  <a href="{% url 'comment_edit' pk=comment.pk %}">Edit</a>
+  <a href="{% url 'comment_delete' pk=comment.pk %}">Delete</a>
+  {% endif %}
+</div>
+{% endfor %}
+
+<h3>Add a Comment:</h3>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Add Comment</button>
+</form>
