@@ -24,6 +24,16 @@
 </div>
 {% endfor %}
 
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+
+<h3>Tags:</h3>
+<ul>
+  {% for tag in post.tags.all %}
+  <li><a href="{% url 'tag_posts' tag.name %}">{{ tag.name }}</a></li>
+  {% endfor %}
+</ul>
+
 <h3>Add a Comment:</h3>
 <form method="post">
   {% csrf_token %} {{ form.as_p }}
