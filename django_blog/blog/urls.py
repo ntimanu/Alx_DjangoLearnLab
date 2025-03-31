@@ -3,13 +3,14 @@ from . import views
 from .views import (
     register_view, login_view, logout_view, profile_view, 
     PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView,
-    CommentCreateView, CommentUpdateView, CommentDeleteView
+    CommentCreateView, CommentUpdateView, CommentDeleteView, PostByTagListView
 )
 
 urlpatterns = [
     path('search/', views.search_view, name='search'),
+    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='post_by_tag'),
     path('tags/<str:tag_name>/', views.tag_posts, name='tag_posts'),
-    path('post/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
     path('', PostListView.as_view(), name='post_list'),
     path('posts/', views.posts, name='posts'),
     path('login/', login_view, name='login'),
